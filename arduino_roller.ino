@@ -1,14 +1,16 @@
+#include "display.h"
 #include "easing.h"
 #include "eyes.h"
 #include "motors.h"
 
 #define DEBUG
-#define LED_PIN 13
 
 
+Display display;
 Easing easing;
-Motors motors;
 Eyes eyes;
+Motors motors;
+
 
 #define STATE_PARKED 0
 #define STATE_ADVANCING 1
@@ -18,19 +20,19 @@ Eyes eyes;
 
 #define BACKOFF_TIME 3000
 #define BACKOFF_SPEED -255
-#define BACKOFF_EASE_TIME 2000
+#define BACKOFF_EASE_TIME 1000
 
 #define ADVANCE_SPEED 255
-#define ADVANCE_EASE_TIME 3000
+#define ADVANCE_EASE_TIME 1000
 
 
 int current_state = STATE_PARKED;
 unsigned long time_state_changed = 0;
 
+
 void setup() {
 	Serial.begin(9600);
 	Serial.println("Wheelie starting up...");
-	pinMode(LED_PIN, OUTPUT);
 	
 	// Set motors to debug mode
 	motors.Live = true;
@@ -39,6 +41,8 @@ void setup() {
 	delay(WARMUP_DELAY);
 
 	Serial.println("Startup complete. Off we go...");
+	
+	display.Blink(5, 100);
 	
 	// start off by advancing!
 	updateState(STATE_ADVANCING);
@@ -86,11 +90,13 @@ void loop() {
 				if(obstacle_detected) {
 					// If after backing off we are still detecting an obstacle, we're probably 
 					// stuck, so just park.
+					display.Blink(5, 200);
 					updateState(STATE_PARKED);
 				}
 				else {
 					// We've backed off a bit, are not still up against 
 					// something, so can start advancing again.
+					display.Blink(2, 1000);
 					updateState(STATE_ADVANCING);
 				}
 			} 
@@ -112,8 +118,9 @@ void loop() {
 	}
 
 	// Perform all the World Update Steps
+	display.Update();
 	motors.Update();
-	
+
 	#ifdef DEBUG
 	delay(200);
 	#endif

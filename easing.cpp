@@ -40,6 +40,7 @@ void Easing::Start()
 	t_end = t_start + t_delta;	
 }
 
+
 int Easing::EaseInOut()
 {
 	unsigned long t_now = millis();

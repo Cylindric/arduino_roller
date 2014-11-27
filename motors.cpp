@@ -1,6 +1,5 @@
 #include "Arduino.h"
 #include "motors.h"
-#include "easing.h"
 
 Motors::Motors()
 {
