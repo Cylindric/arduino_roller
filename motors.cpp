@@ -1,5 +1,6 @@
 #include "Arduino.h"
-#include "Motors.h"
+#include "motors.h"
+#include "easing.h"
 
 Motors::Motors()
 {
@@ -11,8 +12,6 @@ Motors::Motors()
 void Motors::SetSpeed(int speed)
 {
 	this->target_speed = speed;
-	Serial.print("Motors speed set to ");
-	Serial.println(speed);
 }
 
 

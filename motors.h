@@ -48,6 +48,9 @@ class Motors
 		void SetSpeed(int speed);
 		int GetSpeed();
 		void SetTurn(int turn);
+		
+		// Update the motors with the currently set speeds.
+		// Should be called on every world-update cycle to facilitate easing.
 		void Update();
 		bool Live = true;
 		
